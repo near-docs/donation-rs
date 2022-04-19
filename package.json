@@ -1,0 +1,41 @@
+{
+  "name": "pool_party",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "npm run build:contract",
+    "build:contract": "node contract/compile.js",
+    "build:contract:debug": "node contract/compile.js",
+    "dev:deploy:contract": "near dev-deploy",
+    "deploy:contract": "near deploy",
+    "deploy": "npm run build && npm run deploy:contract",
+    "prestart": "npm run build:contract:debug && npm run dev:deploy:contract",
+    "start": "echo The app is starting! It will automatically open in your browser when ready && env-cmd -f ./neardev/dev-account.env parcel src/index.html --open",
+    "dev": "nodemon --watch contract -e ts --exec \"npm run start\"",
+    "test": "npm run build:contract:debug && cd contract && npm run test && cd .. && npm run jest",
+    "jest": "npm run build:contract:debug && jest test --runInBand"
+  },
+  "devDependencies": {
+    "asbuild": "^0.2.0",
+    "env-cmd": "~10.1.0",
+    "jest": "~27.5.1",
+    "jest-environment-node": "~27.5.1",
+    "near-cli": "~3.2.0",
+    "nodemon": "~2.0.15",
+    "parcel-bundler": "^1.12.5",
+    "shelljs": "~0.8.5"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "near-api-js": "^0.44.2",
+    "near-sdk-as": "^3.2.3",
+    "regenerator-runtime": "~0.13.9"
+  },
+  "jest": {
+    "testEnvironment": "near-cli/test_environment",
+    "testPathIgnorePatterns": [
+      "<rootDir>/contract/",
+      "<rootDir>/node_modules/"
+    ]
+  }
+}
