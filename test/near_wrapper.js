@@ -1,6 +1,6 @@
 // Functions to interact with the NEAR network
 const { keyStores: { InMemoryKeyStore }, Near, KeyPair, Account,
-				Contract, utils: {format: { parseNearAmount } }, transactions: { deployContract } } = nearAPI
+				Contract, utils: {format: { parseNearAmount, formatNearAmount } }, transactions: { deployContract } } = nearAPI
 const BN = require('bn.js')
 const fs = require("fs")
 
@@ -70,8 +70,10 @@ async function create_contract(accountId, viewMethods, changeMethods){
 wallet_balance = async function (account_id) {
 	let account = await near.account(account_id)
 	let balance = await account.getAccountBalance()
+
 	balance.total = parseFloat(formatNearAmount(balance.total))
 	balance.available = parseFloat(formatNearAmount(balance.available))
+
 	return balance
 }
 

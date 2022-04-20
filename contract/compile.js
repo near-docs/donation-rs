@@ -28,8 +28,8 @@ const debug = process.argv.pop() === '--debug'
 // Note: see other flags in ./cargo/config. Unfortunately, you cannot set the
 // `--target option` in Cargo.toml.
 const buildCmd = debug
-  ? 'cargo build --target wasm32-unknown-unknown'
-  : 'cargo build --target wasm32-unknown-unknown --release'
+  ? "RUSTFLAGS='-C link-arg=-s' cargo build --all --target wasm32-unknown-unknown"
+  : "RUSTFLAGS='-C link-arg=-s' cargo build --all --target wasm32-unknown-unknown --release"
 
 // Execute the build command, storing exit code for later use
 const { code } = sh.exec(buildCmd)
@@ -42,8 +42,8 @@ if (code === 0 && calledFromDir !== __dirname) {
   const linkDir = `${calledFromDir}/out`
   const link = `${calledFromDir}/out/main.wasm`
   const packageName = require('fs').readFileSync(`${__dirname}/Cargo.toml`).toString().match(/name = "([^"]+)"/)[1]
-  const outFile = `${calledFromDir}/target/wasm32-unknown-unknown/${debug ? 'debug' : 'release'}/${packageName}.wasm`
-  console.log(`${__dirname}/Cargo.toml`, packageName)
+  const outFile = `${calledFromDir}/contract/target/wasm32-unknown-unknown/${debug ? 'debug' : 'release'}/${packageName}.wasm`
+  console.log(calledFromDir, outFile)
   sh.mkdir('-p', linkDir)
   sh.rm('-f', link)
   //fixes #831: copy-update instead of linking .- sometimes sh.ln does not work on Windows

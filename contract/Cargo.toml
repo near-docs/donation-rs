@@ -1,13 +1,12 @@
 [package]
-name = "poolparty_token"
+name = "donation_contract"
 version = "1.0.0"
-authors = ["Guillermo Gallardo <gagdiez@poolparty.ar>"]
+authors = ["Guillermo Gallardo <guillermo@near.org>"]
 edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-near-sdk = "3.1.0"
-near-contract-standards = "3.1.1"
+near-sdk = "4.0.0-pre.7"
 uint = { version = "0.8.3", default-features = false }
